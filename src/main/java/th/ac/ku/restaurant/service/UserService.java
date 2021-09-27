@@ -1,6 +1,9 @@
 package th.ac.ku.restaurant.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import th.ac.ku.restaurant.model.User;
 import th.ac.ku.restaurant.model.Vegetable;
@@ -13,6 +16,7 @@ import java.util.UUID;
 @Service
 public class UserService
 {
+    private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private UserRepository repository;
 
@@ -23,6 +27,9 @@ public class UserService
 
     public User create(User user)
     {
+        passwordEncoder = new BCryptPasswordEncoder();
+        String enc = passwordEncoder.encode(user.getPassword());
+        user.setPassword(enc);
         repository.save(user);
         return user;
     }
@@ -50,5 +57,9 @@ public class UserService
         User record = repository.findById(id).get();
         repository.deleteById(id);
         return record;
+    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

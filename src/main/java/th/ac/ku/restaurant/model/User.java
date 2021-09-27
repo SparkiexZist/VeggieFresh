@@ -2,13 +2,11 @@ package th.ac.ku.restaurant.model;
 
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
+@Table(name = "users")
 public class User
 {
     @Id
@@ -36,7 +34,6 @@ public class User
     public void setName(String name) {
         this.name = name;
     }
-
     public String getEmail() {
         return email;
     }
